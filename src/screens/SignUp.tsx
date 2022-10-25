@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { VStack, Image, Text, Center, Container, Heading, ScrollView } from 'native-base'
+import { VStack, Image, Text, Center, Heading, ScrollView, HStack } from 'native-base'
 import BackgroundImg from '../assets/background.png'
 import LogoSvg from '../assets/series.svg'
 import { Button } from '../components/Button'
@@ -23,11 +23,11 @@ export function SignUp(){
         position="absolute"
       />
 
-      <Center my={20}>
-        <Container flexDirection="row" alignItems="center" >
+      <Center my={24}>
+        <HStack>
           <LogoSvg />
           <Text color="gray.100" fontSize="2xl" ml="2" fontFamily="heading">Coder Gym</Text>
-        </Container>
+        </HStack>
         <Text color="gray.100" fontSize="sm">
           Treine sua mente e o seu corpo
         </Text>
