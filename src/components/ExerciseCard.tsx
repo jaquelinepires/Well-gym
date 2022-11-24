@@ -22,7 +22,7 @@ export function ExerciseCard({ ...rest }: Props) {
         />
 
         <VStack flex={1}>
-          <Heading fontSize="lg" color="white" fontFamily="md">
+          <Heading fontSize="lg" color="white">
             Remanda unilateral
           </Heading>
 

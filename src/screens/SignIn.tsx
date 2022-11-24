@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { VStack, Image, Text, Center, Heading, ScrollView, HStack } from 'native-base'
-import BackgroundImg from '../assets/background.png'
+import BackgroundImg from '../assets/bg.png'
 import LogoSvg from '../assets/series.svg'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
@@ -35,7 +35,7 @@ export function SignIn(){
   }
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
-    <VStack flex={1} px={10} pb={16}>
+    <VStack flex={1} px={10} pb={16} >
       <Image 
         source={BackgroundImg}
         defaultSource={BackgroundImg}
@@ -45,12 +45,12 @@ export function SignIn(){
       />
 
       <Center my={24}>
-        <HStack>
+        <HStack alignItems="center">
           <LogoSvg />
-          <Text color="gray.100" fontSize="2xl" ml="2" fontFamily="heading">Coder Gym</Text>
+          <Text color="white" fontSize="2xl" ml="2" fontFamily="heading">Well Gym</Text>
         </HStack>
         <Text color="gray.100" fontSize="sm">
-          Treine sua mente e o seu corpo
+         Adeque seus treinos a sua rotina
         </Text>
       </Center>
 

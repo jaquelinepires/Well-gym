@@ -3,14 +3,18 @@ import { NativeBaseProvider } from 'native-base';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 import { Loading } from './src/components/Loading';
 import { THEME } from './src/theme';
-import { SignUp } from './src/screens/SignUp';
 import { Routes } from './src/routes';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
   const [ fontsLoaded ] = useFonts({ Inter_400Regular, Inter_700Bold })
-  
-  return (
 
+  if (!fontsLoaded) {
+    return null;
+  }
+  
+  SplashScreen.preventAutoHideAsync();
+  return (
     <NativeBaseProvider theme={THEME}>
       <StatusBar 
         barStyle="light-content"

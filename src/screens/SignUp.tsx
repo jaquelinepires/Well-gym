@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { VStack, Image, Text, Center, Heading, ScrollView, HStack } from 'native-base'
-import BackgroundImg from '../assets/background.png'
+import BackgroundImg from '../assets/bg.png'
 import LogoSvg from '../assets/series.svg'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
@@ -54,7 +54,7 @@ export function SignUp(){
           <Text color="gray.100" fontSize="2xl" ml="2" fontFamily="heading">Coder Gym</Text>
         </HStack>
         <Text color="gray.100" fontSize="sm">
-          Treine sua mente e o seu corpo
+          Adeque seus treinos a sua rotina
         </Text>
       </Center>
 

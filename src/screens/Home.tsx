@@ -7,7 +7,7 @@ import { HomeHeader } from "../components/HomeHeader";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 
 export function Home() {
-  const [groups, setGroups] = useState(['Costas', 'Bíceps', 'Tríceps', 'ombro']);
+  const [groups, setGroups] = useState(['Ombro', 'Peitoral', 'Tríceps', 'Abdômen', 'Bíceps', 'Pernas', 'Glúteo']);
   const [exercises, setExercises] = useState(['Puxada frontal', 'Remada curvada', 'Remada unilateral', 'Levantamento terras']);
   const [groupSelected, setGroupSelected] = useState('Costas')
 

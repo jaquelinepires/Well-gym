@@ -6,14 +6,18 @@ import { Profile } from '../screens/Profile';
 import HomeSvg from '../assets/home.svg';
 import HistorySvg from '../assets/history.svg'; 
 import ProfileSvg from '../assets/profile.svg';
+import ResumeSvg from '../assets/resume4.svg';
 import { useTheme } from 'native-base';
 import { Platform } from 'react-native';
+import { Resume } from '../screens/Resume';
+
 
 type AppRoutes = {
   home: undefined;
   exercise: undefined;
   profile: undefined;
   history: undefined;
+  resume: undefined;
 }
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 
@@ -60,6 +64,21 @@ export function AppRoutes() {
       />
 
       <Screen 
+        name='resume'
+        component={Resume}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <ResumeSvg width={iconSize} height={iconSize}/>
+          )
+        }}
+      />
+      <Screen 
+        name='exercise'
+        component={Exercise}
+        options={{ tabBarButton: () => null }}
+      />
+
+      <Screen 
         name='profile'
         component={Profile}
         options={{
@@ -67,12 +86,6 @@ export function AppRoutes() {
             <ProfileSvg fill={color} width={iconSize} height={iconSize}/>
           )
         }}
-      />
-
-      <Screen 
-        name='exercise'
-        component={Exercise}
-        options={{ tabBarButton: () => null }}
       />
     </Navigator>
   );
