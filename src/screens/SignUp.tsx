@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { VStack, Image, Text, Center, Heading, ScrollView, HStack } from 'native-base'
+import { VStack, Image, Text, Center, Heading, ScrollView, HStack, useToast } from 'native-base'
 import BackgroundImg from '../assets/bg.png'
 import LogoSvg from '../assets/series.svg'
 import { Button } from '../components/Button'
@@ -7,6 +7,8 @@ import { Input } from '../components/Input'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { api } from '../services/api'
+import { AppError } from '../utils/AppError'
 
 type FormDataProps = {
   name: string
@@ -24,19 +26,32 @@ const signUpSchema = yup.object({
 
 export function SignUp(){
 
+  const toast = useToast()
+
   const { control, handleSubmit, formState: {errors} } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema)
   })
 
-  function handleSignUp(data: any){
-    console.log(data)
+  async function handleSignUp({ name, email, password}: FormDataProps){
+    try{
+    const response = await api.post('/users',{ name, email, password })
+    console.log(response.data)
+  } catch(error){
+    const isAppError = error instanceof AppError
+    const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde.'
+    toast.show({
+      title,
+      placement: 'top',
+      bgColor: 'red.500'
+    })
   }
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
   function handleGoBack() {
-    navigation.goBack()
+    navigation.goBack();
   }
-
+  
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
     <VStack flex={1} px={10} pb={16}>

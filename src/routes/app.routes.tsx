@@ -64,15 +64,6 @@ export function AppRoutes() {
       />
 
       <Screen 
-        name='resume'
-        component={Resume}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <ResumeSvg width={iconSize} height={iconSize}/>
-          )
-        }}
-      />
-      <Screen 
         name='exercise'
         component={Exercise}
         options={{ tabBarButton: () => null }}
