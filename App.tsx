@@ -5,6 +5,7 @@ import { Loading } from './src/components/Loading';
 import { THEME } from './src/theme';
 import { Routes } from './src/routes';
 import * as SplashScreen from 'expo-splash-screen';
+import {AuthContext}  from './src/contexts/AuthContext';
 
 export default function App() {
   const [ fontsLoaded ] = useFonts({ Inter_400Regular, Inter_700Bold })
@@ -21,7 +22,16 @@ export default function App() {
         backgroundColor="transparent"
         translucent
         />
-     { fontsLoaded ? <Routes /> : <Loading /> } 
+        <AuthContext.Provider value={{
+          user: {
+          id: '1',
+          name: 'John Doe',
+          email: 'johndoe@gmail.com',
+          avatar: 'john.png'
+          }
+        }}>
+          { fontsLoaded ? <Routes /> : <Loading /> } 
+        </AuthContext.Provider>
     </NativeBaseProvider>
   );
 }
