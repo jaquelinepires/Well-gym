@@ -6,10 +6,8 @@ import { Profile } from '../screens/Profile';
 import HomeSvg from '../assets/home.svg';
 import HistorySvg from '../assets/history.svg'; 
 import ProfileSvg from '../assets/profile.svg';
-import ResumeSvg from '../assets/resume4.svg';
 import { useTheme } from 'native-base';
 import { Platform } from 'react-native';
-import { Resume } from '../screens/Resume';
 
 
 type AppRoutes = {
