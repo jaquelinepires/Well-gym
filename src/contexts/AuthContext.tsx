@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { UserDTO } from "../dtos/UserDTO";
 import { api } from "../services/api";
-import { storageAuthTokenSave } from "../storage/storageAuthToken";
+import { storageAuthTokenGet, storageAuthTokenSave } from "../storage/storageAuthToken";
 import { storageUserSave, storageUserGet } from "../storage/storageUser";
 
 export type AuthContextDataProps = {
@@ -18,19 +18,21 @@ export function AuthContextProvider({children}: AuthContextProviderProps) {
   const [user, setUser ] = useState<UserDTO>({} as UserDTO);
   const [ isLoadingUserStorageData, setIsLoadingUserStorageData ] = useState(true)
 
-  async function storageUserAndToken(userData: UserDTO, token: string) {
-    try {
+  async function userAndTokenUpdate(userData: UserDTO, token: string) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}` 
+    setUser(userData)
+  }
+
+  async function storageUserAndTokenSave(userData: UserDTO, token: string) {
+    try{
       setIsLoadingUserStorageData(true)
 
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-     
       await storageUserSave(userData)
       await storageAuthTokenSave(token) 
-      setUser(user)
 
-    }catch (error) {
+    } catch(error){
       throw error
-    } finally {
+    } finally{
       setIsLoadingUserStorageData(false)
     }
   }
@@ -40,22 +42,29 @@ export function AuthContextProvider({children}: AuthContextProviderProps) {
     const { data } = await api.post('/sessions', {email, password})
 
     if(data.user && data.token) {
-      storageUserAndToken(data.user, data.token)
+      await storageUserAndTokenSave(data.user, data.token)
+      userAndTokenUpdate(data.user, data.token)
     }
     } catch (error) {
       throw error
+
+    } finally {
+      setIsLoadingUserStorageData(false)
     }
   }
     async function loadUserData() {
       try{
-      const userLogged = await storageUserGet()
+      setIsLoadingUserStorageData(true)
 
-      if(userLogged) {
-        setUser(userLogged)
-        setIsLoadingUserStorageData(false)
+      const userLogged = await storageUserGet()
+      const token = await storageAuthTokenGet()
+
+      if(token && userLogged) {
+        userAndTokenUpdate(userLogged, token)
       }
     } catch (error) {
       throw error
+
     } finally {
       setIsLoadingUserStorageData(false)
     }
