@@ -18,8 +18,9 @@ type RouteParamsProps = {
 }
 
 export function Exercise() {
-  const [sendingRegister, setSendingRegister] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [sendingRegister, setSendingRegister] = useState(false);
+
   const [exercise, setExercise] = useState<ExerciseDTO>({} as ExerciseDTO);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -56,19 +57,21 @@ export function Exercise() {
   async function handleExerciseHistoryRegister() {
     try {
       setSendingRegister(true);
-      
+      console.log(exerciseId);
+
       await api.post('/history', { exercise_id: exerciseId });
 
       toast.show({
         title: 'Parabéns! Exercício registrado no seu histórico.',
         placement: 'top',
-        bgColor: 'green.500'
+        bgColor: 'green.700'
       });
 
       navigation.navigate('history');
+
     } catch (error) {
       const isAppError = error instanceof AppError;
-      const title = isAppError ? error.message : 'Não foi possível registrar exercício.';
+      const title = isAppError ? error.message : 'Não foi possível registrar o exercício.';
 
       toast.show({
         title,
