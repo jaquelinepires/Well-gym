@@ -5,8 +5,10 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { ScreenHeader } from "../components/ScreenHeader";
 import { UserPhoto } from "../components/UsePhoto";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system'
+import * as yup from 'yup';
 import { Controller, useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
 
@@ -20,18 +22,42 @@ type FormDataProps = {
   confirm_password: string;
 }
 
+const profileSchema = yup.object().shape({
+  name: yup
+  .string()
+  .required('Informe o nome.'),
+  password: yup
+  .string()
+  .min(6, 'A senha deve ter no mínimo 6 dígitos.')
+  .nullable().transform((value) => !!value ? value : null),
+  confirm_password: yup
+  .string()
+  .nullable()
+  .transform((value) => !!value ? value : null)
+  .oneOf([yup.ref('password'), null], 'A confirmação de senha não confere.')
+  .when('password', {
+    is: (Field: any) => Field,
+    then: yup
+    .string()
+    .nullable()
+    .required('Informe a confirmação da senha.')
+    .transform((value) => !!value ? value : null)
+  }),
+})
+
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [userPhoto, setUserPhoto] = useState('https://github.com/jaquelinepires.png');
 
   const toast = useToast()
   const { user } = useAuth()
-  const { control, handleSubmit } = useForm<FormDataProps>({
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     defaultValues: {
       name: user.name,
       email: user.email
 
-    }
+    },
+    resolver: yupResolver(profileSchema)
   })
 
  async function handleUserPhotoSelect(){
@@ -107,6 +133,7 @@ async function handleProfileUpdate(data: FormDataProps) {
                 placeholder="Nome"
                 value={value}
                 onChangeText={onChange}
+                errorMessage={errors.name?.message}
               />
             )}
           />
@@ -150,6 +177,8 @@ async function handleProfileUpdate(data: FormDataProps) {
                 placeholder="Nova senha"
                 secureTextEntry
                 onChangeText={onChange}
+                errorMessage={errors.password?.message}
+
               />
             )}
           />
@@ -163,6 +192,8 @@ async function handleProfileUpdate(data: FormDataProps) {
                 placeholder="Confirme a nova senha"
                 secureTextEntry
                 onChangeText={onChange}
+                errorMessage={errors.confirm_password?.message}
+
               />
             )}
           />
